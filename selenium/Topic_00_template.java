@@ -1,5 +1,6 @@
 
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
@@ -31,6 +32,11 @@ public class Topic_00_template {
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
+	}
+
+	public int randomNumber() {
+		Random rand = new Random();
+		return rand.nextInt(9999);
 	}
 	
 	public void sleepInSecond(long second) {
