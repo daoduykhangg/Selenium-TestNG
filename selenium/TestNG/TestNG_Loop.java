@@ -1,0 +1,91 @@
+package TestNG;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+public class TestNG_Loop {
+    WebDriver driver;
+    String projectPath = System.getProperty("user.dir");
+
+    @BeforeClass(alwaysRun = true)
+    public void beforeClass() {
+        System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
+        driver = new FirefoxDriver();
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
+    }
+
+    @Test(invocationCount = 5)
+    public void TC_02_Dropdown_List() {
+
+        String firstname = "automation" + randomNumber();
+        String lastname = "FC";
+        String day = "21";
+        String month = "August";
+        String year = "1996";
+        String email = "automationfc" + randomNumber() + "@gmail.com";
+        String password = "123456";
+
+        driver.get("https://demo.nopcommerce.com/");
+        driver.findElement(By.xpath("//a[text()='Register']")).click();
+        driver.findElement(By.name("FirstName")).sendKeys(firstname);
+        driver.findElement(By.name("LastName")).sendKeys(lastname);
+
+        Select dayDropdownList = new Select(driver.findElement(By.name("DateOfBirthDay")));
+        Assert.assertEquals(dayDropdownList.getOptions().size(), 32);
+        dayDropdownList.selectByVisibleText(day);
+
+        Select monthDropdownList = new Select(driver.findElement(By.name("DateOfBirthMonth")));
+        Assert.assertEquals(monthDropdownList.getOptions().size(), 13);
+        monthDropdownList.selectByVisibleText(month);
+
+        Select yearDropdownList = new Select(driver.findElement(By.name("DateOfBirthYear")));
+        Assert.assertEquals(yearDropdownList.getOptions().size(), 112);
+        yearDropdownList.selectByVisibleText(year);
+
+        driver.findElement(By.name("Email")).sendKeys(email);
+        driver.findElement(By.name("Password")).sendKeys(password);
+        driver.findElement(By.name("ConfirmPassword")).sendKeys(password);
+        driver.findElement(By.name("register-button")).click();
+
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='result']")).getText(), "Your registration completed");
+        driver.findElement(By.xpath("//a[@class='ico-account']")).click();
+
+        dayDropdownList = new Select(driver.findElement(By.name("DateOfBirthDay")));
+        Assert.assertEquals(dayDropdownList.getFirstSelectedOption().getText(), day);
+
+        monthDropdownList = new Select(driver.findElement(By.name("DateOfBirthMonth")));
+        Assert.assertEquals(monthDropdownList.getFirstSelectedOption().getText(), month);
+
+        yearDropdownList = new Select(driver.findElement(By.name("DateOfBirthYear")));
+        Assert.assertEquals(yearDropdownList.getFirstSelectedOption().getText(), year);
+        driver.findElement(By.xpath("//a[@class='ico-logout']")).click();
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void afterClass() {
+        driver.quit();
+    }
+
+    public int randomNumber() {
+        Random rand = new Random();
+        return rand.nextInt(9999);
+    }
+
+    public void sleepInSecond(long second) {
+        try {
+            Thread.sleep(second * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}

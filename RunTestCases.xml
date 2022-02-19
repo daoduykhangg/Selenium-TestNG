@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite parallel="false" name="Suite" thread-count="3">
+
+<!--    <groups>-->
+<!--        <run>-->
+<!--            <include name="TC2" />-->
+<!--            <exclude name="dropdownList" />-->
+<!--        </run>-->
+<!--    </groups>-->
+    <parameter name="Url" value="http://live.techpanda.org"/>
+    <test name="Chrome">
+        <classes>
+            <parameter name="Browser" value="Chrome"/>
+            <class name="TestNG.TestNG_Dependencies"/>
+        </classes>
+    </test>
+
+<!--    <test name="Firefox">-->
+<!--        <classes>-->
+<!--            <parameter name="Browser" value="Firefox"/>-->
+<!--            <class name="TestNG.TestNG_Parameter_Multiple_Browser"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+<!--    <test name="Egde">-->
+<!--        <classes>-->
+<!--            <parameter name="Browser" value="Edge"/>-->
+<!--            <class name="TestNG.TestNG_Parameter_Multiple_Browser"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+</suite>
